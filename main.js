@@ -82,18 +82,32 @@ function Clock(props) {
     }, []);
     
     const [date, setDate] = React.useState(new Date());
-
+    const [textColor, setTextColor] = React.useState('#000000');
+    const intervalRef = React.useRef();
     const tick = () => {
-        setInterval(() => {
+        intervalRef.current =setInterval(() => {
             setDate(new Date())
         }, 1000)
     }
     
+    const changeColor = () => {
+        
+        setTextColor(`#${Math.floor(Math.random() * 16777215).toString(16)}`)  
+    }
+
+    const stopClock = () => {
+      clearInterval(intervalRef.current);
+    }
 
     return (
         <div>
             <h1>Hello world</h1>
-            <h2>Il est {date.toLocaleTimeString()}.</h2>
+            <h2 style={{ color: textColor}}>Il est {date.toLocaleTimeString()}.</h2>
+            <button onClick={changeColor}>Random color</button>
+            <button onClick={() => setTextColor('#000000')}>Reset color</button>
+            <br/>
+            <button onClick={stopClock}>Stop clock</button>
+            <button onClick={tick}>Restart clock</button>
         </div>
         );
 }
